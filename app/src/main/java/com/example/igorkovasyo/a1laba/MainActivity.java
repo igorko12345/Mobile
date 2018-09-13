@@ -8,8 +8,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    Button buttonHello, buttonClear;
+    Button buttonHello,   buttonClear;
     EditText inputName;
+    EditText inputName2;
     TextView myName;
 
     @Override
@@ -25,10 +26,11 @@ public class MainActivity extends AppCompatActivity {
     public void clearMessage(View view) {
         inputName.getText().clear();
     }
-
     public void showMessage(View view) {
-        myName.setText("Hello" + " " + inputName.getText().toString());
+        myName.setText("Hello" + " " + inputName .getText().toString());
         inputName.getText().clear();
     }
 
-    }
+
+
+}

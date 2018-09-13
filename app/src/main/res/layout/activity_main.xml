@@ -1,19 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/myName"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="200dp"
+        android:textAlignment="center"
+        android:text="123"
+        android:textSize="20dp"
+        tools:layout_editor_absoluteX="2dp"
+        tools:layout_editor_absoluteY="2dp" />
 
-</android.support.constraint.ConstraintLayout>
+
+
+
+    <EditText
+    android:id="@+id/inputName"
+    android:layout_width="200dp"
+    android:layout_height="50dp"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:layout_marginStart="18dp"
+    android:layout_marginTop="122dp"
+    android:hint="Your name"
+    tools:layout_editor_absoluteX="16dp"
+    tools:layout_editor_absoluteY="149dp"
+    android:layout_alignParentLeft="true"
+    android:layout_marginLeft="18dp" />
+
+
+
+
+
+
+
+    <Button
+        android:id="@+id/buttonHello"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
+        android:onClick="showMessage"
+        android:text="Hello"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="117dp"
+        tools:layout_editor_absoluteY="216dp" />
+
+    <Button
+        android:id="@+id/buttonClear"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/inputName"
+        android:layout_toEndOf="@+id/inputName"
+        android:onClick="clearMessage"
+        android:text="Clear"
+        tools:layout_editor_absoluteX="230dp"
+        tools:layout_editor_absoluteY="149dp"
+        android:layout_toRightOf="@+id/inputName" />
+
+
+
+
+
+
+</RelativeLayout>
