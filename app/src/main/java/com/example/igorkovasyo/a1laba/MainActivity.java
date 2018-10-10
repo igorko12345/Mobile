@@ -20,14 +20,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        pass = (EditText) findViewById(R.id.password);
-        pass2 = (EditText) findViewById(R.id.confirm);
-        phone = (EditText) findViewById(R.id.phone);
-        email = (EditText) findViewById(R.id.email);
-        f_name = (EditText) findViewById(R.id.first_name);
-        l_name = (EditText) findViewById(R.id.last_name);
-        res = (TextView)findViewById(R.id.result);
-        Button btn_submit = (Button)findViewById(R.id.btn_submit);
+        pass =  findViewById(R.id.password);
+        pass2 =  findViewById(R.id.confirm);
+        phone =  findViewById(R.id.phone);
+        email =  findViewById(R.id.email);
+        f_name =  findViewById(R.id.first_name);
+        l_name =  findViewById(R.id.last_name);
+        res = findViewById(R.id.result);
+        Button btn_submit = findViewById(R.id.btn_submit);
         flag = true;
         btn_submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
