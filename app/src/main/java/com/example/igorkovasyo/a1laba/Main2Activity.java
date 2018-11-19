@@ -1,55 +1,47 @@
 package com.example.igorkovasyo.a1laba;
 
+import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ListView;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
-import java.util.Set;
+
 
 public class Main2Activity extends AppCompatActivity {
-
+    private User user;
     SharedPreferences shared;
-    ArrayList<String> name;
-    ArrayList<String> number;
+    RecyclerView mRvGames;
+    private ArrayList<User> users = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        shared = getSharedPreferences("users_list", MODE_PRIVATE);
 
-        name = new ArrayList<>();
-        number = new ArrayList<>();
+        retriveSharedValue();
 
-        try {
-            retriveSharedValue();
-        } catch (Exception e){}
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        mRvGames = findViewById(R.id.list);
+        mRvGames.setLayoutManager(layoutManager);
 
-        String[] names = new String[name.size()];
-        names = name.toArray(names);
-        String[] numbers = new String[number.size()];
-        numbers = number.toArray(numbers);
+        retriveSharedValue();
+        final RecyclerView lvMain = findViewById(R.id.list);
 
-        for(int i = 0; i < names.length ; i++){
-            Log.d("string is",names[i]);
-            Log.d("string is",numbers[i]);
-        }
-
-        final ListView lvMain = findViewById(R.id.list);
-
-        CustomAdapter customAdapter = new CustomAdapter(this, names, numbers);
+        CustomAdapter customAdapter = new CustomAdapter(users);
         lvMain.setAdapter(customAdapter);
     }
 
     private void retriveSharedValue() {
-        Set<String> set_name = shared.getStringSet("name", null);
-        name.addAll(set_name);
-        Set<String> set_number = shared.getStringSet("number", null);
-        number.addAll(set_number);
-
-        Log.d("storesharedPreferences",""+set_name);
+        Gson gson = new Gson();
+        shared = getSharedPreferences("user", Context.MODE_PRIVATE);
+        String json = shared.getString("user", "");
+        user = gson.fromJson(json, User.class);
+        users.add(user);
     }
 }

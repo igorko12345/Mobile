@@ -1,45 +1,53 @@
 package com.example.igorkovasyo.a1laba;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class CustomAdapter extends BaseAdapter {
-    String Item[];
-    String SubItem[];
-    LayoutInflater inflter;
+import java.util.ArrayList;
 
-    public CustomAdapter(Context applicationContext, String[] Item, String[] SubItem) {
-        this.Item = Item;
-        this.SubItem = SubItem;
-        inflter = (LayoutInflater.from(applicationContext));
+public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+
+    private ArrayList<User> users;
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextView tvName, tvEmail, tvPhone;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+            tvName = itemView.findViewById(R.id.item);
+            tvEmail = itemView.findViewById(R.id.surname);
+            tvPhone = itemView.findViewById(R.id.subitem);
+        }
+    }
+
+    public CustomAdapter(ArrayList<User> users) {
+        this.users = users;
     }
 
     @Override
-    public int getCount() {
-        return Item.length;
+    public CustomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View postView = inflater.inflate(R.layout.list_view, parent, false);
+        ViewHolder viewHolder = new ViewHolder(postView);
+        return viewHolder;
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public void onBindViewHolder(CustomAdapter.ViewHolder holder, int position) {
+        User item = users.get(position);
+        holder.tvName.setText(item.getName());
+        holder.tvPhone.setText(item.getSurname());
+        holder.tvEmail.setText(item.getPhone());
     }
 
     @Override
-    public long getItemId(int i) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        view = inflter.inflate(android.R.layout.simple_list_item_2, null);
-        TextView item =  view.findViewById(android.R.id.text1);
-        TextView subitem =  view.findViewById(android.R.id.text2);
-        item.setText(Item[i]);
-        subitem.setText(SubItem[i]);
-        return view;
+    public int getItemCount() {
+        return users.size();
     }
 }

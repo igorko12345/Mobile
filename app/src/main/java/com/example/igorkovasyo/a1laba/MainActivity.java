@@ -1,25 +1,26 @@
 package com.example.igorkovasyo.a1laba;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText pass;
-    EditText pass2;
+    EditText password;
+    EditText password_confirm;
     EditText phone;
     EditText email;
-    EditText f_name;
-    EditText l_name;
+    EditText first_name;
+    EditText last_name;
     TextView res;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     String phonePattern = "^(\\+38)?[0-9]{10}$";
@@ -40,12 +41,12 @@ public class MainActivity extends AppCompatActivity {
         name = new ArrayList<>();
         number = new ArrayList<>();
 
-        pass =  findViewById(R.id.password);
-        pass2 =  findViewById(R.id.confirm);
+        password =  findViewById(R.id.password);
+        password_confirm =  findViewById(R.id.confirm);
         phone =  findViewById(R.id.phone);
         email =  findViewById(R.id.email);
-        f_name =  findViewById(R.id.first_name);
-        l_name =  findViewById(R.id.last_name);
+        first_name =  findViewById(R.id.first_name);
+        last_name =  findViewById(R.id.last_name);
         res = findViewById(R.id.result);
 
         Button btn_submit = findViewById(R.id.btn_submit);
@@ -62,15 +63,11 @@ public class MainActivity extends AppCompatActivity {
                 CheckPhone();
                 if(flag == true) {
                     res.setText("Authorization is successful");
-
-                    try {
-                        retriveSharedValue();
-                    } catch (Exception e){}
-
-                    name.add(f_name.getText().toString() + ' ' + l_name.getText().toString());
-                    number.add(phone.getText().toString());
+                    User user = new User(first_name.getText().toString(),
+                            last_name.getText().toString(),
+                            phone.getText().toString());
+                    saveData(user);
                     Clear();
-                    packagesharedPreferences();
                 }
             }
         });
@@ -84,12 +81,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void CheckPassword(){
-        if(pass.getText().toString().equals(pass2.getText().toString()) == false) {
+        if(password.getText().toString().equals(password_confirm.getText().toString()) == false) {
             res.setText(res.getText().toString() + "\n The password do not match");
             flag = false;
         }
 
-        if(pass.getText().toString().trim().length() < 8 || pass2.getText().toString().trim().length() < 8) {
+        if(password.getText().toString().trim().length() < 8 || password_confirm.getText().toString().trim().length() < 8) {
             res.setText(res.getText().toString() + "\n Short password");
             flag = false;
         }
@@ -110,42 +107,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void CheckFields(){
-        if(pass.getText().toString().trim().length() == 0 || pass2.getText().toString().trim().length() == 0 || phone.getText().toString().trim().length() == 0
-                || email.getText().toString().trim().length() == 0 || f_name.getText().toString().trim().length() == 0 || l_name.getText().toString().trim().length() == 0) {
+        if(password.getText().toString().trim().length() == 0 || password_confirm.getText().toString().trim().length() == 0 || phone.getText().toString().trim().length() == 0
+                || email.getText().toString().trim().length() == 0 || first_name.getText().toString().trim().length() == 0 || last_name.getText().toString().trim().length() == 0) {
             res.setText(res.getText().toString() + "\n Enter all fields");
             flag = false;
         }
     }
 
     public void Clear(){
-        pass.setText("");
-        pass2.setText("");
+        password.setText("");
+        password_confirm.setText("");
         email.setText("");
         phone.setText("");
-        f_name.setText("");
-        l_name.setText("");
+        first_name.setText("");
+        last_name.setText("");
     }
 
-    private void packagesharedPreferences() {
-        SharedPreferences.Editor editor = shared.edit();
-        Set<String> set_name = new HashSet<String>();
-        Set<String> set_number = new HashSet<String>();
-        set_name.addAll(name);
-        set_number.addAll(number);
-        editor.putStringSet("name", set_name);
-        editor.putStringSet("number", set_number);
-        editor.apply();
-        Log.d("storesharedPreferences",""+set_name);
-        Log.d("storesharedPreferences",""+set_number);
+    private void saveData(User user){
+        SharedPreferences mPrefs = getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        prefsEditor.putString("user", json);
+        prefsEditor.apply();
     }
 
-    private void retriveSharedValue() {
-        Set<String> set_name = shared.getStringSet("name", null);
-        name.addAll(set_name);
-        Set<String> set_number = shared.getStringSet("number", null);
-        number.addAll(set_number);
-
-        Log.d("resharedPreferences",""+set_name);
-        Log.d("resharedPreferences",""+set_number);
-    }
 }
