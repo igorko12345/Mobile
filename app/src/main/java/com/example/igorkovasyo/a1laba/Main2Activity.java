@@ -8,15 +8,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Main2Activity extends AppCompatActivity {
-    private User user;
-    SharedPreferences shared;
     RecyclerView mRvGames;
     private ArrayList<User> users = new ArrayList<>();
+    ArrayList<User> usersFromShared;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,19 +31,23 @@ public class Main2Activity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRvGames = findViewById(R.id.list);
         mRvGames.setLayoutManager(layoutManager);
-
+        usersFromShared = new ArrayList<>();
         retriveSharedValue();
         final RecyclerView lvMain = findViewById(R.id.list);
 
-        CustomAdapter customAdapter = new CustomAdapter(users);
+        UserAdapter customAdapter = new UserAdapter(usersFromShared);
         lvMain.setAdapter(customAdapter);
     }
 
     private void retriveSharedValue() {
         Gson gson = new Gson();
-        shared = getSharedPreferences("user", Context.MODE_PRIVATE);
-        String json = shared.getString("user", "");
-        user = gson.fromJson(json, User.class);
-        users.add(user);
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(
+                "users", Context.MODE_PRIVATE);
+        String jsonPreferences = sharedPref.getString("users", "");
+        Type type = new TypeToken<List<User>>() {
+        }.getType();
+        usersFromShared = gson.fromJson(jsonPreferences, type);
+
+
     }
 }

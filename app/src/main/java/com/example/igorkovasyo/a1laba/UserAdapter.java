@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private ArrayList<User> users;
 
@@ -25,12 +25,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }
     }
 
-    public CustomAdapter(ArrayList<User> users) {
+    public UserAdapter(ArrayList<User> users) {
         this.users = users;
     }
 
     @Override
-    public CustomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UserAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View postView = inflater.inflate(R.layout.list_view, parent, false);
@@ -39,7 +39,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(CustomAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(UserAdapter.ViewHolder holder, int position) {
         User item = users.get(position);
         holder.tvName.setText(item.getName());
         holder.tvPhone.setText(item.getSurname());
